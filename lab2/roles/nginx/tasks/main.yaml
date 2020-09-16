@@ -5,6 +5,24 @@
   service:
     name: nginx
     state: started
+- name: create directory
+  file:
+    path: /home/ubuntu/static-site
+    state: directory
+    remote_src: yes
+- name: create a nginx config file with the contents
+  copy:
+    dest: "/home/ubuntu/static_site.cfg"
+    content: |
+      server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /home/ubuntu/static-site;
+        server_name _;
+        location / {
+          try_files $uri $uri/ =404;
+        }
+       } 
 - name: copy the nginx config file and restart nginx
   copy:
     src: /home/ubuntu/static_site.cfg
@@ -20,9 +38,9 @@
   become: yes
 - name: copy the content of the web site
   copy:
-    src: /home/ubuntu/static-site-src/
+    src: ../files/index.html
     dest: /home/ubuntu/static-site
-    remote_src: yes
+    remote_src: no
 - name: restart nginx
   service:
     name: nginx
