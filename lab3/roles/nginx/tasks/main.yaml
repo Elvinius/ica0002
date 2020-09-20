@@ -1,0 +1,24 @@
+- name: Ensure nginx is installed and in working state
+  apt: 
+    name: nginx
+    
+- name: start nginx
+  service:
+    name: nginx
+    state: started 
+       
+- name: copy the nginx config file and restart nginx
+  copy:
+    src: ../files/uwsgi_app.cfg
+    dest: /etc/nginx/sites-available/uwsgi_app.cfg
+  become: yes
+  notify: restart nginx
+  
+- name: create symlink
+  file:
+    src: /etc/nginx/sites-available/uwsgi_app.cfg
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+    remote_src: yes
+  become: yes
+
