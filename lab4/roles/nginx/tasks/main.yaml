@@ -1,0 +1,17 @@
+- name: Ensure nginx is installed and in working state
+  apt: 
+    name: nginx
+    
+- name: start nginx
+  service:
+    name: nginx
+    state: started 
+       
+- name: copy the nginx config file and restart nginx
+  copy:
+    src: ../files/uwsgi_app.cfg
+    dest: /etc/nginx/sites-enabled/default
+  become: yes
+  notify: restart nginx
+ 
+
