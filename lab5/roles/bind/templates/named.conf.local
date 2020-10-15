@@ -1,0 +1,7 @@
+zone "devhunt.it" {
+  type master;
+  file "/etc/bind/db.devhunt.it";
+
+};
+
+

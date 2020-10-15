@@ -1,0 +1,11 @@
+$TTL	604800
+devhunt.it.	IN	SOA	Elvinius-2.devhunt.it. elvin.devhunt.it. (
+			      2		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+devhunt.it.	IN	NS	Elvinius-2
+Elvinius-1	IN	A	{{ vm1_ip }}
+Elvinius-2	IN	A	{{ vm2_ip }}
