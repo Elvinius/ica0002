@@ -1,0 +1,11 @@
+options {
+	directory "/var/cache/bind";
+	forwarders {
+      {% for f in dns_forwarders %}
+	    {{ f }};
+      {% endfor %}
+	};
+      allow-query {127.0.0.1; 192.168.42.0/24;};
+	dnssec-validation no;
+	auth-nxdomain no;    # conform to RFC1035
+};

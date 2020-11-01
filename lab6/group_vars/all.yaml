@@ -11,6 +11,6 @@ dns_forwarders:
   - 9.9.9.10
 local_network: 192.168.42.0/24
 localhost: 127.0.0.0/8
-vm1_ip: 192.168.42.66
-vm2_ip: 192.168.42.50 
+vm1_ip: 192.168.42.31
+vm2_ip: 192.168.42.16 
 domain: devhunt.it

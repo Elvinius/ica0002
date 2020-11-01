@@ -1,0 +1,5 @@
+---
+- name: Exporter packages
+  apt:
+    name: 
+      - prometheus-node-exporter

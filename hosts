@@ -1,5 +1,5 @@
-Elvinius-1 ansible_host=193.40.156.86 ansible_port=3922 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-Elvinius-2 ansible_host=193.40.156.86 ansible_port=3722 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+Elvinius-1 ansible_host=193.40.156.86 ansible_port=6622 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+Elvinius-2 ansible_host=193.40.156.86 ansible_port=5022 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
 [app_servers]
 Elvinius-1
 

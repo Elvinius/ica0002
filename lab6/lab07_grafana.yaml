@@ -1,0 +1,6 @@
+---
+- name: Install Node Exporters
+  hosts: all
+  become: yes
+  roles:
+    - grafana
