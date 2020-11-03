@@ -1,9 +1,0 @@
-zone "devhunt.it" {
-  type master;
-  file "/etc/bind/db.devhunt.it";
-};
-
-zone "50/24.42.168.192" {
-	type master;
-	file "/etc/bind/rev_db.devhunt.it";
-};
