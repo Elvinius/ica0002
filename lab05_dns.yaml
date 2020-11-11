@@ -1,0 +1,6 @@
+---
+- name: DNS server
+  hosts: all
+  roles:
+    - bind
+  become: yes

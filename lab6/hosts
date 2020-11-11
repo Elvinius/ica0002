@@ -9,3 +9,18 @@ elvinius2
 
 [prometheus]
 elvinius1
+
+
+[db_servers]
+elvinius2
+
+[web_servers]
+elvinius1
+
+
+[node_exporters]
+elvinius1
+elvinius2
+
+[grafana]
+elvinius1
