@@ -24,3 +24,9 @@ elvinius2
 
 [grafana]
 elvinius1
+
+[influxdb]
+elvinius2
+
+[pinger]
+elvinius2
