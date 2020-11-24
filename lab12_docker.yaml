@@ -1,0 +1,23 @@
+---
+- name: Setup
+  hosts: all
+  become: yes
+  roles:
+    - init
+
+# - name: Web app
+#   hosts: app_servers
+#   roles:
+#     - agama
+#     - uwsgi
+#     - nginx
+#   become: yes
+
+- name: Install docker
+  hosts: docker_servers
+  gather_facts: false
+  become: yes
+  roles:
+    - docker
+    - grafana_docker
+    - agama_docker

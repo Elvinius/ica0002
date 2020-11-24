@@ -3,21 +3,21 @@
     name: nginx
     state: latest
     
-# - name: start nginx
-#   service:
-#     name: nginx
-#     state: started 
+- name: start nginx
+  service:
+    name: nginx
+    state: started 
        
-# - name: copy the nginx config file and restart nginx
-#   copy:
-#     src: ../files/uwsgi_app.cfg
-#     dest: /etc/nginx/sites-enabled/default
-#   become: yes
-#   notify: restart nginx
+- name: copy the nginx config file and restart nginx
+  copy:
+    src: ../files/uwsgi_app.cfg
+    dest: /etc/nginx/sites-enabled/default
+  become: yes
+  notify: restart nginx
  
 
-- name: Change Nginx's default configuration
-  template:
-    src: default.j2
-    dest: /etc/nginx/sites-available/default
-  notify: restart nginx
+# - name: Change Nginx's default configuration
+#   template:
+#     src: default.j2
+#     dest: /etc/nginx/sites-available/default
+#   notify: restart nginx

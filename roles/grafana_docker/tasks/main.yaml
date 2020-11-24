@@ -1,0 +1,23 @@
+---
+- name: Pull default Docker image
+  docker_image:
+    name: grafana/grafana
+    source: pull
+
+- name: Grafana directory
+  file:
+    name: /opt/docker/grafana
+    state: directory
+    owner: "472"
+    group: "472"
+    recurse: true
+
+- name: Grafana container
+  docker_container:
+    name: grafana
+    image: grafana/grafana
+    env:
+      GF_SERVER_ROOT_URL: http://localhost:3000/grafana
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+    ports:
+      - 3001:3000

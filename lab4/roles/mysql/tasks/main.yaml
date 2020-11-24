@@ -1,7 +1,7 @@
 - name: Install mysql server
   apt:
     name: mysql-server
-    update_cache: yes
+   
 
 - name: Install Pymsql
   apt:

@@ -1,0 +1,29 @@
+---
+
+- name: Grafana directory
+  file:
+    name: /opt/agama
+    owner: "ubuntu"
+    group: "ubuntu"
+    state: directory
+    recurse: true
+
+- name: Download Dockerfile
+  get_url:
+    url: https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile
+    dest: /opt/agama/Dockerfile
+    mode: '0644'
+
+- name: Build agama image
+  docker_image:
+    path: /opt/agama/
+    name: agama
+    tag: latest
+    state: present
+
+- name: agama container
+  docker_container:
+    name: agama
+    image: agama
+    ports:
+      - 8000:8000

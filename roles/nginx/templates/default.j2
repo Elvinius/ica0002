@@ -15,7 +15,8 @@ server {
         location / {
 		include uwsgi_params;
                 #uwsgi_pass IP_address:Port
-                uwsgi_pass unix:/opt/agama/agama.sock;
+                uwsgi_pass 127.0.0.1:5000;
+                #uwsgi_pass unix:/opt/agama/agama.sock;
 	}
         {% endif %}
 
