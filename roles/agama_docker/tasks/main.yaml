@@ -1,6 +1,6 @@
 ---
 
-- name: Grafana directory
+- name: Agama directory
   file:
     name: /opt/agama
     owner: "ubuntu"
@@ -18,7 +18,6 @@
   docker_image:
     path: /opt/agama/
     name: agama
-    tag: latest
     state: present
 
 - name: agama container

@@ -17,7 +17,6 @@ elvinius2
 [web_servers]
 elvinius1
 
-
 [node_exporters]
 elvinius1
 elvinius2
@@ -33,3 +32,7 @@ elvinius2
 
 [docker_servers]
 elvinius1
+
+[haproxy]
+elvinius1
+elvinius2

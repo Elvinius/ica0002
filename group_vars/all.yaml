@@ -57,3 +57,5 @@ acl: ica0002acl
 ica0002acl:
   - 127.0.0.1
   - 192.168.42.0/24
+
+nginx_container_per_vm: 2

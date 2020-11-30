@@ -4,6 +4,7 @@
     roles:
       - mysql
     become: yes
+    no_log: True
 
   - name: Web app
     hosts: app_servers

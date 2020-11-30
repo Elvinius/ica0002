@@ -1,0 +1,51 @@
+---
+- name: Setup
+  hosts: all
+  become: yes
+  roles:
+    - init
+
+- name: DNS
+  hosts: dns_servers
+  become: yes
+  roles:
+    - bind_exporter
+    - bind
+
+- name: Configure Prometheus
+  hosts: prometheus
+  become: yes
+  roles:
+    - prometheus
+
+- name: Install Grafana
+  hosts: grafana
+  become: yes
+  roles:
+    - grafana
+  tags: grafana
+
+- name: docker
+  hosts: all
+  gather_facts: false
+  become: yes
+  roles:
+    - agama_docker
+  tags:
+    - docker
+
+- name: HAProxy
+  hosts: haproxy
+  become: yes
+  roles: 
+    - haproxy
+  tags: 
+    - haproxy
+
+- name: Keepalived
+  hosts: haproxy
+  become: yes
+  roles: 
+    - keepalived
+  tags: 
+    - keepalived
