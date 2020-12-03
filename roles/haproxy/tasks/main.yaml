@@ -34,4 +34,3 @@
     ports:
       - 9101:9101
     command: --haproxy.scrape-uri="http://172.17.0.1:88/haproxy?stats;csv"
-

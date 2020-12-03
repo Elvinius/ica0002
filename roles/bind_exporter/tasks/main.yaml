@@ -1,4 +1,8 @@
 ---
+- name: Exporter user
+  user:
+    name: prometheus
+
 - name: Install Bind9 exporter
   apt:
     name: prometheus-bind-exporter

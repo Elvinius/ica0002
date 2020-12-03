@@ -5,12 +5,12 @@
   roles:
     - init
 
-- name: DNS
-  hosts: dns_servers
-  become: yes
-  roles:
-    - bind_exporter
-    - bind
+# - name: DNS
+#   hosts: dns_servers
+#   become: yes
+#   roles:
+#     - bind_exporter
+#     - bind
 
 - name: Configure Prometheus
   hosts: prometheus
@@ -26,10 +26,11 @@
   tags: grafana
 
 - name: docker
-  hosts: all
+  hosts: elvinius1
   gather_facts: false
   become: yes
   roles:
+    - docker
     - agama_docker
   tags:
     - docker

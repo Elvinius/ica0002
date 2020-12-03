@@ -1,85 +1,36 @@
-- name: Set DNS Server to vm2
-  lineinfile:
-   insertafter: '^nameserver 127.0.0.53'
-   line: nameserver {{ hostvars['elvinius2']['ansible_default_ipv4']['address'] }}
-   path: /etc/resolv.conf
-
+---
 - name: Install bind
   apt:
-    pkg: bind9
-    state: present
+    name: 
+      - bind9
+      - python3-dnspython 
+    update_cache: no
+    
+- name: Start service bind9, if not started
+  service:
+    name: bind9
+    state: started
 
-- name: Make "custombind9" directory
-  file:
-    path: /etc/custombind
-    state: directory
-    owner: root
-    group: bind
-    mode: 0750
-
-- name: Copy named.conf.masterzone
+- name: copy the options config file
   template:
-    src: named.conf.masterzone.j2
-    dest: /etc/custombind/named.masterzone.conf
-    owner: root
-    group: bind
-    mode: 0640
+    src: ../templates/named.conf.options.j2
+    dest: /etc/bind/named.conf.options
   notify: restart bind9
 
-- name: Make zones Directory
-  file:
-    path: /etc/custombind/zones
-    state: directory
-    owner: root
-    group: bind
-    mode: 0750
-
-- name: Copy forward file
+- name: Bind zone config
   template:
-    src: db.forward.j2
-    dest: /etc/custombind/zones/db.forward
-    owner: root
-    group: bind
-    mode: 0640
+    src: ../templates/named.conf.local.j2
+    dest: /etc/bind/named.conf.local     
   notify: restart bind9
 
-- name: Copy reverse file
+- name: copy the resolv file
   template:
-    src: db.reverse.j2
-    dest: /etc/custombind/zones/db.reverse
-    owner: root
-    group: bind
-    mode: 0640
+    src: ../templates/resolv.conf
+    dest: /etc/resolv.conf
   notify: restart bind9
 
-- name: Copy local reverse file
+- name: DNS Zone
   template:
-    src: db.local.j2
-    dest: /etc/custombind/zones/db.local_reverse
-    owner: root
-    group: bind
-    mode: 0640
-  notify: restart bind9
-
-- name: check if firewalld is running
-  command: systemctl is-active firewalld
-  register: firewalld_result
-  changed_when: False
-  ignore_errors: True
-
-- name: Open firewall port
-  firewalld:
-   service: dns
-   permanent: true
-   state: enabled
-   immediate: yes
-  when: firewalld_result.stdout == "active"
-
-- name: Copy resolv.conf file
-  template:
-    src: resolv.conf.j2
-    dest: /etc/custombind/resolv.conf
-    owner: root
-    group: bind
-    mode: 0640
+    src: ../templates/db.example.j2
+    dest: /etc/bind/db.devhunt.it
   notify: restart bind9

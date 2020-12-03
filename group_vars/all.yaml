@@ -1,4 +1,4 @@
-mysql_host: 192.168.42.170
+mysql_host: 192.168.42.151
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -15,8 +15,8 @@ mysql_exporter_pass: !vault |
               66663838366132663063623365636632323635343064333536666638653361343864
 local_network: 192.168.42.0/24
 localhost: 127.0.0.0/8
-vm1_ip: 192.168.42.163
-vm2_ip: 192.168.42.170
+vm1_ip: 192.168.42.18
+vm2_ip: 192.168.42.151
 
 dns_forwarders:
   - 8.8.8.8
@@ -42,15 +42,15 @@ prometheus_exporters:
     port: 9119
 
 reverse_domain: 
-  - 170.42.168.192.in-addr.arpa
+  - 151.42.168.192.in-addr.arpa
 
 dns_record:
  - name: elvinius2
    type: A
-   ipaddress: 192.168.42.170
+   ipaddress: 192.168.42.151
  - name: elvinius1
    type: A
-   ipaddress: 192.168.42.163
+   ipaddress: 192.168.42.18
 
 acl: ica0002acl
 
