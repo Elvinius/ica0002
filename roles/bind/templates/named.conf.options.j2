@@ -1,3 +1,13 @@
+key "dns_transfer" {
+	algorithm hmac-sha256;
+	secret "zdZkgv7YT9GctIBlSUBekm9mDzb4bhCLYttfoQTonfA=";
+};
+
+key "dns_update" {
+	algorithm hmac-sha256;
+	secret "L0LQUxsMEgTj0i9ZPr/4zSSNhTOXNmyI4wV5kjx1DSI=";
+};
+
 options {
 	directory "/var/cache/bind";
 	forwarders {

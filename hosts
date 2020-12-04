@@ -4,9 +4,15 @@ elvinius2 ansible_host=193.40.156.86 ansible_port=15122 ansible_ssh_user=ubuntu 
 [app_servers]
 elvinius1
 
-[dns_servers]
-
+[dns_masters]
 elvinius2
+
+[dns_slaves]
+elvinius1
+
+[dns_servers:children]
+dns_masters
+dns_slaves
 
 [prometheus]
 elvinius1

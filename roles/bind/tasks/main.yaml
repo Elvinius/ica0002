@@ -5,7 +5,7 @@
       - bind9
       - python3-dnspython 
     update_cache: no
-    
+
 - name: Start service bind9, if not started
   service:
     name: bind9
@@ -22,15 +22,37 @@
     src: ../templates/named.conf.local.j2
     dest: /etc/bind/named.conf.local     
   notify: restart bind9
+  when: inventory_hostname in groups['dns_masters']
 
-- name: copy the resolv file
+- name: Bind slave zone config
   template:
-    src: ../templates/resolv.conf
-    dest: /etc/resolv.conf
+    src: ../templates/named.conf.local.slave.j2
+    dest: /etc/bind/named.conf.local     
   notify: restart bind9
+  when: inventory_hostname in groups['dns_slaves']
 
 - name: DNS Zone
   template:
     src: ../templates/db.example.j2
     dest: /etc/bind/db.devhunt.it
+  notify: Reload rndc
+  when: inventory_hostname in groups['dns_masters']
+
+- name: copy the resolv file
+  template:
+    src: ../templates/resolv.conf.j2
+    dest: /etc/resolv.conf
   notify: restart bind9
+
+- meta: flush_handlers
+
+# - name: Add an abc3 record
+#   nsupdate:
+#     key_algorithm: "hmac-sha256"
+#     key_name: "dns_update"
+#     key_secret: "L0LQUxsMEgTj0i9ZPr/4zSSNhTOXNmyI4wV5kjx1DSI="
+#     server: "{{ hostvars[groups['dns_masters'][0]]['ansible_default_ipv4']['address'] }}"
+#     zone: "{{ fqdn }}"
+#     record: "abc3"
+#     value: "192.168.1.1"
+#   when: inventory_hostname == groups['dns_masters'][0]

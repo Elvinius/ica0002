@@ -1,4 +1,6 @@
 zone "{{ fqdn }}" {
   type master;
   file "/etc/bind/db.{{ fqdn }}";
+  allow-transfer { key dns_transfer; };
+  allow-update { key dns_update; };
 };

@@ -13,6 +13,15 @@ mysql_exporter_pass: !vault |
               62613566626262373837646163383130386163623036336264376666393139363832343031356639
               6565393365363936310a613535313535623032383063343232383630326536633834646136353938
               66663838366132663063623365636632323635343064333536666638653361343864
+
+ns_transfer_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          37636633366465376535383163343234643436616637653937333665623461313962326362303332
+          3265303533396136613162373731313531666561653561630a643630663334313366353161323764
+          30303864316166613331626261373839303438323434633330656431366230346434653563326534
+          3964303532646231380a636536613932326233366665643937343736353161396433623538343961
+          64643663663139366661666431326265623161363234303330633561363434326165373138616634
+          6230326539323331633735396163393866613337373238653631
 local_network: 192.168.42.0/24
 localhost: 127.0.0.0/8
 vm1_ip: 192.168.42.18
@@ -26,6 +35,9 @@ dns_forwarders:
 
 domain: devhunt
 fqdn: devhunt.it
+
+resolv_conf_search_domains:
+  - devhunt.it
 
 prometheus_exporters:
   
@@ -59,3 +71,23 @@ ica0002acl:
   - 192.168.42.0/24
 
 nginx_container_per_vm: 2
+
+dns_cnames:
+  - cname: ns
+    real: "{{ groups['dns_servers'][0] }}"
+  - cname: influxdb
+    real: "{{ groups['influxdb'][0] }}"
+  - cname: www
+    real: "{{ groups['web_servers'][0] }}" 
+  - cname: db
+    real: "{{ groups['db_servers'][0] }}" 
+  - cname: grafana
+    real: "{{ groups['grafana'][0] }}"
+  - cname: prometheus
+    real: "{{ groups['prometheus'][0] }}"
+  - cname: haproxy1
+    real: "{{ groups['haproxy'][0] }}"
+  - cname: haproxy2
+    real: "{{ groups['haproxy'][1] }}"
+  - cname: abc2
+    real: elvinius2

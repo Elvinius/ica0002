@@ -12,3 +12,4 @@
     - bind
     - bind_exporter
   become: yes
+  tags: bind
