@@ -12,6 +12,11 @@ $TTL	604800
 {% for vm in hostvars %}
 {{ hostvars[vm]['inventory_hostname'] }}.{{fqdn}}. IN A {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
 {% endfor %}
+{% if dns_record is defined %}
+{% for item in dns_record %}
+{{ item.name }}			IN      {{ item.type }}		{{ item.ipaddress }}
+{% endfor %}
+{% endif %}
 {% for cname in dns_cnames %}
 {{ cname['cname'] }}.{{fqdn}}. IN CNAME {{ cname['real'] }}.{{fqdn}}.
 {% endfor %}

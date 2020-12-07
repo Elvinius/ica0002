@@ -9,6 +9,15 @@
 
 # Add MySQL backup user and MySQL cnf file
 
+- name: Create home backup directory for elvinius2
+  file:
+    path: /home/backup
+    state: directory
+    owner: backup
+    group: backup
+    mode: '0755'
+  when: inventory_hostname == "elvinius2"
+
 - name: Create MySQL backup user
   mysql_user:
     name: "{{ mysql_backup_user }}"

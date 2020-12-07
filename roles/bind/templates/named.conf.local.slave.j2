@@ -7,7 +7,7 @@
 
 zone "{{ fqdn }}" {
   type slave;
-  file "/etc/bind/db.{{ fqdn }}";
+  file "/var/lib/bind/db.{{ fqdn }}";
   masters {
     {% for vm in groups['dns_masters'] %}
       {{ hostvars[vm]['ansible_default_ipv4']['address'] }};
