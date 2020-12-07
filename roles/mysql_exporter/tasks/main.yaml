@@ -1,8 +1,9 @@
 ---
-- name: Install MySQL exporter
+- name: Install MySQL exporter and python3-pymysql
   apt:
-    name: prometheus-mysqld-exporter
-    state: latest
+    name: 
+      - prometheus-mysqld-exporter
+      - python3-pymysql
 
 - name: Create MySQL exporter user
   mysql_user:

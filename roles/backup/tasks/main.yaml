@@ -1,5 +1,5 @@
 ---
-- name: Add the user "backup" and genereate its keys
+- name: Add the user "backup" and generate keys
   user:
     name: backup
     create_home: yes
@@ -17,7 +17,7 @@
     host: "localhost"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   no_log: true
-  when: inventory_hostname == "vm2"
+  when: inventory_hostname == "elvinius2"
 
 - name: Copy MySQL configuration file
   template:
@@ -26,21 +26,21 @@
     owner: backup
     group: backup
     mode: '0400'
-  when: inventory_hostname == "vm2"
+  when: inventory_hostname == "elvinius2"
 
 # Configure backup user's groups
 
-- name: Add the user to the Prometheus and Grafana groups on the VM1
+- name: Add the user to the Prometheus and Grafana groups on the elvinius1
   user:
     name: backup
     groups: grafana,prometheus
-  when: inventory_hostname == "vm1"
+  when: inventory_hostname == "elvinius1"
 
 - name: Add the user to the InfluxDB and MySQL groups on the VM2
   user:
     name: backup
     groups: mysql,influxdb
-  when: inventory_hostname == "vm2"
+  when: inventory_hostname == "elvinius2"
 
 # Task to create required directories and backup scripts
 
@@ -63,7 +63,7 @@
     owner: backup
     group: backup
     mode: '0755'
-  when: inventory_hostname == "vm2"
+  when: inventory_hostname == "elvinius2"
 
 - name: Copy Ansible backup script
   template:
@@ -72,7 +72,7 @@
     owner: backup
     group: backup
     mode: '0500'
-  when: inventory_hostname == "vm1"
+  when: inventory_hostname == "elvinius1"
 
 - name: Copy Grafana and Prometheus backup scripts to VM1
   copy:
@@ -81,7 +81,7 @@
     owner: backup
     group: backup
     mode: '0500'
-  when: inventory_hostname == "vm1"
+  when: inventory_hostname == "elvinius1"
   loop:
     - grafana.sh
     - prometheus.sh
@@ -93,7 +93,7 @@
     owner: backup
     group: backup
     mode: '0500'
-  when: inventory_hostname == "vm2"
+  when: inventory_hostname == "elvinius2"
   loop:
     - influxdb.sh
     - mysql.sh
@@ -103,7 +103,6 @@
 - name: Install Duplicity
   apt:
     name: duplicity
-    state: latest
 
 - name: Copy crontab to VM1
   template:
@@ -112,7 +111,7 @@
     owner: root
     group: root
     mode: '0644'
-  when: inventory_hostname == "vm1"
+  when: inventory_hostname == "elvinius1"
 
 - name: Copy crontab to VM2
   template:
@@ -121,4 +120,4 @@
     owner: root
     group: root
     mode: '0644'
-  when: inventory_hostname == "vm2"
+  when: inventory_hostname == "elvinius2"

@@ -17,7 +17,6 @@ dns_slaves
 [prometheus]
 elvinius1
 
-
 [db_servers]
 elvinius2
 

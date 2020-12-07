@@ -34,7 +34,7 @@
 - name: DNS Zone
   template:
     src: ../templates/db.example.j2
-    dest: /etc/bind/db.devhunt.it
+    dest: /var/lib/bind/db.devhunt.it
   notify: Reload rndc
   when: inventory_hostname in groups['dns_masters']
 
@@ -50,7 +50,7 @@
 #   nsupdate:
 #     key_algorithm: "hmac-sha256"
 #     key_name: "dns_update"
-#     key_secret: "L0LQUxsMEgTj0i9ZPr/4zSSNhTOXNmyI4wV5kjx1DSI="
+#     key_secret: "{{ns_update_secret}}"
 #     server: "{{ hostvars[groups['dns_masters'][0]]['ansible_default_ipv4']['address'] }}"
 #     zone: "{{ fqdn }}"
 #     record: "abc3"

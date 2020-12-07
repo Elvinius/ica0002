@@ -1,0 +1,13 @@
+- name: Reconfigure DNS
+  hosts: dns_servers
+  gather_facts: false
+  become: yes
+  roles:
+    - bind
+
+- name: Configure backups
+  hosts: all
+  gather_facts: false
+  become: yes
+  roles:
+    - backup

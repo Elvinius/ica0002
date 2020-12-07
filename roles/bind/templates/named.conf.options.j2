@@ -1,11 +1,11 @@
 key "dns_transfer" {
 	algorithm hmac-sha256;
-	secret "zdZkgv7YT9GctIBlSUBekm9mDzb4bhCLYttfoQTonfA=";
+	secret "{{ns_transfer_secret}}";
 };
 
 key "dns_update" {
 	algorithm hmac-sha256;
-	secret "L0LQUxsMEgTj0i9ZPr/4zSSNhTOXNmyI4wV5kjx1DSI=";
+	secret "{{ns_update_secret}}";
 };
 
 options {
