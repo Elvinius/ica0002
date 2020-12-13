@@ -5,28 +5,71 @@
   roles:
     - init
 
-# - name: DNS
-#   hosts: dns_servers
-#   become: yes
-#   roles:
-#     - bind_exporter
-#     - bind
+- name: DNS
+  hosts: dns_servers
+  become: yes
+  roles:
+    - bind_exporter
+    - bind
+  tags: bind
+
+- name: Nginx proxies
+  hosts: all
+  roles:
+    - nginx
+    - nginx_exporter
+  become: yes
+
+- name: db servers
+   hosts: db_servers
+   become: yes
+   gather_facts: no
+   roles:
+     - mysql
+     - mysql_exporter
+   tags: mysql
 
 - name: Configure Prometheus
   hosts: prometheus
   become: yes
   roles:
     - prometheus
+  tags: prometheus
 
-- name: Install Grafana
-  hosts: grafana
-  become: yes
-  roles:
-    - grafana
-  tags: grafana
+- name: Monitoring and logging
+   hosts: all
+   become: yes
+   gather_facts: no
+   roles:
+     - node_exporter
+     - rsyslog
+   tags: rsyslog
+
+- name: Influxdb
+   hosts: influxdb
+   become: yes
+   gather_facts: no
+   roles:
+     - influxdb
+   tags: influxdb
+
+# - name: Backup
+#    hosts: all
+#    become: yes
+#    gather_facts: no
+#    roles:
+#      - backup
+#    tags: backup
+
+# - name: Install Grafana
+#   hosts: grafana
+#   become: yes
+#   roles:
+#     - grafana
+#   tags: grafana
 
 - name: docker
-  hosts: elvinius1
+  hosts: all
   gather_facts: false
   become: yes
   roles:
@@ -37,16 +80,16 @@
 
 - name: HAProxy
   hosts: haproxy
+  gather_facts: true
   become: yes
   roles: 
     - haproxy
-  tags: 
-    - haproxy
+  tags: haproxy
 
 - name: Keepalived
   hosts: haproxy
+  gather_facts: true
   become: yes
   roles: 
     - keepalived
-  tags: 
-    - keepalived
+  tags: keepalived

@@ -23,3 +23,15 @@
   notify: 
     - Systemctl daemon-reload
     - restart keepalived-exporter
+
+- name: Start service keepalived, if not started
+  service:
+    name: keepalived
+    state: started
+    enabled: yes
+
+- name: Start service keepalived-exporter, if not started
+  service:
+    name: keepalived-exporter
+    state: started
+    enabled: yes

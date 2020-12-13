@@ -17,7 +17,9 @@
     name: grafana
     image: grafana/grafana
     env:
-      GF_SERVER_ROOT_URL: http://localhost:3000/grafana
+      GF_SERVER_ROOT_URL: "http://localhost:{{ docker_grafana_port }}/grafana"
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
-    ports:
-      - 3001:3000
+    volumes:
+      - /opt/docker/grafana:/var/lib/grafana
+    published_ports:
+      - "{{ docker_grafana_port }}:{{ grafana_port }}"

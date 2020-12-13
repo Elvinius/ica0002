@@ -15,5 +15,3 @@
     src: ../templates/agama.ini
     dest: /etc/uwsgi/apps-enabled/agama.ini
   notify: restart uwsgi
-
-

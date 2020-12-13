@@ -22,6 +22,7 @@
   become: yes
   roles:
     - nginx_exporter
+  tags: nginx_exporter
  
 - name: Install Bind exporter
   hosts: dns_servers
@@ -41,3 +42,4 @@
   become: yes
   roles:
     - grafana
+  tags: grafana

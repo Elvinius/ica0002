@@ -1,0 +1,130 @@
+---
+- name: Collect information about all VMs
+  hosts: all
+  tasks:
+    - setup:
+
+- name: Ansible connection test
+  hosts: all
+  roles:
+    - test_connection
+
+- name: Setup
+  hosts: all
+  become: yes
+  roles:
+    - init
+
+- name: DNS
+  hosts: dns_servers
+  become: yes
+  roles:
+    - bind
+  tags: bind
+
+- name: Configure Prometheus
+  hosts: prometheus
+  become: yes
+  roles:
+    - prometheus
+  tags: prometheus
+
+- name: Nginx proxies
+  hosts: all
+  roles:
+    - nginx
+    - nginx_exporter
+  become: yes
+  tags: nginx
+
+- name: db servers
+  hosts: db_servers
+  become: yes
+  gather_facts: no
+  roles:
+    - mysql
+    - mysql_exporter
+  tags: mysql
+
+- name: Monitoring and logging
+  hosts: all
+  become: yes
+  gather_facts: no
+  roles:
+    - node_exporter
+    - bind_exporter
+
+- name: Install InfluxDB and Telegraf
+  hosts: influxdb
+  gather_facts: false
+  become: yes
+  roles:
+    - influxdb
+
+- name: Configure Rsyslog
+  hosts: prometheus
+  gather_facts: false
+  become: yes
+  roles:
+    - rsyslog
+
+- name: Transfer and setup pinger script
+  hosts: pinger
+  gather_facts: false
+  become: yes
+  roles:
+    - pinger
+
+# - name: Backup
+#   hosts: all
+#   become: yes
+#   gather_facts: no
+#   roles:
+#     - backup
+#   tags: backup
+
+# - name: Install Grafana
+#   hosts: grafana
+#   become: yes
+#   roles:
+#     - grafana
+#   tags: grafana
+
+- name: docker
+  hosts: docker_servers
+  gather_facts: false
+  become: yes
+  roles:
+    - docker
+  tags: docker
+
+- name: Setup Grafana Docker container
+  hosts: grafana
+  gather_facts: no
+  become: yes
+  roles:
+    - grafana_docker
+  tags: grafana_docker
+
+- name: Setup Agama Docker container
+  hosts: app_servers
+  gather_facts: no
+  become: yes
+  roles:
+    - agama_docker
+
+- name: HAProxy
+  hosts: haproxy
+  gather_facts: true
+  become: yes
+  roles: 
+    - haproxy
+  tags: haproxy
+
+- name: Keepalived
+  hosts: haproxy
+  gather_facts: true
+  become: yes
+  roles: 
+    - keepalived
+  tags: keepalived

@@ -15,11 +15,11 @@ options {
 	    {{ f }};
       {% endfor %}
 	};
-    allow-query {127.0.0.1; 192.168.42.0/24;};
+    allow-query { {{ localhost_address }}; {{ local_network }};};
 	dnssec-validation no;
 	auth-nxdomain no;    # conform to RFC1035
 };
 
 statistics-channels {
-  inet 127.0.0.1 port 8053 allow { 127.0.0.1; };
+  inet {{ localhost_address }} port {{ statistics_port }} allow { {{ localhost_address }}; };
 };

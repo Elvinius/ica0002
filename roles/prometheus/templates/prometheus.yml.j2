@@ -18,6 +18,7 @@ scrape_configs:
       - targets: 
         - 'elvinius1.{{ fqdn }}:9100'
         - 'elvinius2.{{ fqdn }}:9100'
+        - 'elvinius3.{{ fqdn }}:9100'
 
    #New jobs for Lab 7 - Grafana
 
@@ -25,16 +26,16 @@ scrape_configs:
     static_configs:
       - targets:
           {% for vm in groups['web_servers'] %}
-#            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ prometheus_exporters['nginx']['port'] }}
-            - {{ hostvars[vm]['inventory_hostname'] }}:{{ prometheus_exporters['nginx']['port'] }}
+           - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ prometheus_exporters['nginx']['port'] }}
+          #  - {{ hostvars[vm]['inventory_hostname'] }}:{{ prometheus_exporters['nginx']['port'] }}
           {% endfor %}
 
   - job_name: mysql_exporter
     static_configs:
       - targets:
           {% for vm in groups['db_servers'] %}
-#            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ prometheus_exporters['mysql']['port'] }}
-            - {{ hostvars[vm]['inventory_hostname'] }}:{{ prometheus_exporters['mysql']['port'] }}
+           - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ prometheus_exporters['mysql']['port'] }}
+        #    - {{ hostvars[vm]['inventory_hostname'] }}:{{ prometheus_exporters['mysql']['port'] }}
           {% endfor %}
 
 
@@ -42,6 +43,20 @@ scrape_configs:
     static_configs:
       - targets:
           {% for vm in groups['dns_servers'] %}
-#            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ prometheus_exporters['bind']['port'] }}
-            - {{ hostvars[vm]['inventory_hostname'] }}:{{ prometheus_exporters['bind']['port'] }}
+           - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ prometheus_exporters['bind']['port'] }}
+        #    - {{ hostvars[vm]['inventory_hostname'] }}:{{ prometheus_exporters['bind']['port'] }}
+          {% endfor %}
+
+  - job_name: haproxy_exporter
+    static_configs:
+      - targets:
+          {% for vm in groups['haproxy'] %}
+            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ docker_haproxy_exporter_port }}
+          {% endfor %}
+
+  - job_name: keepalived_exporter
+    static_configs:
+      - targets:
+          {% for vm in groups['haproxy'] %}
+            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ keepalived_exporter_port }}
           {% endfor %}

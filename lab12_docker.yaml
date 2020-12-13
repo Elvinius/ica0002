@@ -15,7 +15,7 @@
 
 - name: Install docker
   hosts: docker_servers
-  gather_facts: false
+  gather_facts: true
   become: yes
   roles:
     - docker

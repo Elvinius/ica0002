@@ -12,3 +12,9 @@
   notify: 
     - Reload systemd
     - Restart Nginx exporter
+
+- name: Enable exporter service
+  service:
+    name: nginx-prometheus-exporter
+    state: started
+    enabled: yes

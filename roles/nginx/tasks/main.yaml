@@ -1,23 +1,42 @@
 - name: Ensure nginx is installed and in working state
   apt: 
     name: nginx
-    state: latest
-    
+
+- name: stop nginx
+  service:
+    name: nginx
+    state: stopped
+
+- name: Create nginx service directory
+  file:
+    path: /etc/systemd/system/nginx.service.d
+    state: directory
+
+- name: copy the nginx service file and restart nginx
+  copy:
+    src: ../files/override.conf
+    dest: /etc/systemd/system/nginx.service.d/override.conf
+  become: yes
+  notify: 
+    - Systemctl daemon-reload
+    - restart nginx
+
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers     
+# - name: copy the nginx config file and restart nginx
+#   copy:
+#     src: ../files/uwsgi_app.cfg
+#     dest: /etc/nginx/sites-enabled/default
+#   become: yes
+#   notify: restart nginx
+
+- name: Copy Nginx default config to sites-enabled
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-enabled/default
+  notify: restart nginx
+
 - name: start nginx
   service:
     name: nginx
     state: started 
-       
-- name: copy the nginx config file and restart nginx
-  copy:
-    src: ../files/uwsgi_app.cfg
-    dest: /etc/nginx/sites-enabled/default
-  become: yes
-  notify: restart nginx
- 
-
-# - name: Change Nginx's default configuration
-#   template:
-#     src: default.j2
-#     dest: /etc/nginx/sites-available/default
-#   notify: restart nginx

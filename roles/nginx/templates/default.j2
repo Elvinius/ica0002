@@ -2,10 +2,8 @@ server {
 	listen 80 default_server;
         listen [::]:80 default_server;
 
-        #Open port 8080 to allow nginx exporters to query the web server
-
-	listen 8080 default_server;
-        listen [::]:8080 default_server;
+        #listen 8080 default_server;
+        #listen [::]:8080 default_server;
 
 	server_name _;
 
@@ -13,27 +11,29 @@ server {
         #Reverse proxy for Agama application
 
         location / {
-		include uwsgi_params;
+                proxy_pass http://{{localhost_address}}:{{ docker_agama_port }};
+                proxy_set_header Host $http_host;
+		#include uwsgi_params;
                 #uwsgi_pass IP_address:Port
-                uwsgi_pass 127.0.0.1:5000;
+                #uwsgi_pass {{localhost_address}}:5000;
                 #uwsgi_pass unix:/opt/agama/agama.sock;
 	}
         {% endif %}
 
-        {% if inventory_hostname in groups['web_servers'] %}
+        #{% if inventory_hostname in groups['app_servers'] %}
         #Reverse proxy for Nginx statistics
 
-        location /stub_status {
-                stub_status;
-        }
-        {% endif %}
+        #location /stub_status {
+         #       stub_status;
+        #}
+        #{% endif %}
 
 
         {% if inventory_hostname in groups['node_exporters'] %}
         #Reverse proxy for node exporters
 
         location /metrics {
-		proxy_pass http://127.0.0.1:{{ prometheus_exporters['node']['port'] }}/metrics;
+		proxy_pass http://{{localhost_address}}:{{ prometheus_exporters['node']['port'] }}/metrics;
 	}
         {% endif %}
 
@@ -41,7 +41,7 @@ server {
         #Reverse proxy for Nginx exporter
 
         location /nginx-metrics {
-                proxy_pass http://127.0.0.1:{{ prometheus_exporters['nginx']['port'] }}/metrics;
+                proxy_pass http://{{localhost_address}}:{{ prometheus_exporters['nginx']['port'] }}/metrics;
         }
         {% endif %}
 
@@ -49,7 +49,7 @@ server {
         #Reverse proxy for MySQL exporter
 
         location /mysql-metrics {
-		proxy_pass http://127.0.0.1:{{ prometheus_exporters['mysql']['port'] }}/metrics;
+		proxy_pass http://{{localhost_address}}:{{ prometheus_exporters['mysql']['port'] }}/metrics;
 	}
         {% endif %}
 
@@ -57,7 +57,7 @@ server {
         #Reverse proxy for Bind exporter
 
         location /bind-metrics {
-		proxy_pass http://127.0.0.1:{{ prometheus_exporters['bind']['port'] }}/metrics;
+		proxy_pass http://{{localhost_address}}:{{ prometheus_exporters['bind']['port'] }}/metrics;
 	}
         {% endif %}
 
@@ -65,15 +65,47 @@ server {
         #Reverse proxy for Prometheus
 
         location /prometheus {
-                proxy_pass http://127.0.0.1:9090;
+                proxy_pass http://{{localhost_address}}:9090;
         }
+        {% endif %}
+
+        {% if inventory_hostname in groups['haproxy'] %}
+        #Reverse proxy for Haproxy
+
+        location /haproxy-metrics {
+     	        proxy_pass http://{{localhost_address}}:{{ docker_haproxy_exporter_port }}/metrics; 
+	}
+
+        location /keepalived-metrics {
+     	        proxy_pass http://{{localhost_address}}:{{ keepalived_exporter_port }}/metrics; 
+	}
+
+        {% endif %}
+
+        {% if inventory_hostname in groups['haproxy'] %}
+                #Reverse proxy for HAProxy
+
+                location /haproxy {
+                        proxy_pass http://{{localhost_address}}:{{ haproxy_port }}/haproxy?stats;
+                }
         {% endif %}
 
         {% if inventory_hostname in groups['grafana'] %}
         #Reverse proxy for Grafana
 
         location /grafana {
-     	        proxy_pass http://127.0.0.1:3000;
+     	        proxy_pass http://{{localhost_address}}:{{ docker_grafana_port }}; 
+                #proxy_set_header Host http://{{ ansible_host }}:{{ ansible_port // 100 }}88/grafana/;
 	}
         {% endif %}
+}
+
+server {
+     #Open port 8080 to allow nginx exporters to query the web server
+
+    listen 8080 default_server;
+    listen [::]:8080 default_server;
+    location /stub_status {
+       stub_status;
+   }
 }

@@ -2,8 +2,8 @@
 - name: Agama directory
   file:
     name: /opt/agama
-    owner: "ubuntu"
-    group: "ubuntu"
+    owner: root
+    group: root
     state: directory
     recurse: true
 
@@ -11,17 +11,34 @@
   get_url:
     url: https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile
     dest: /opt/agama/Dockerfile
-    mode: '0644'
+    owner: root
+    group: root
+    mode: '777'
+
+# - name: Transfer Agama Docker file
+#   template:
+#    src: Dockerfile.j2
+#    dest: /opt/agama/Dockerfile
+#    owner: root
+#    group: root
+#    mode: '777'
+
 
 - name: Build agama image
   docker_image:
-    path: /opt/agama/
     name: agama
-    state: present
+    build:
+      path: /opt/agama
+      # network: host
+    source: build
+    
 
 - name: agama container
   docker_container:
     name: agama
     image: agama
+    env:
+      AGAMA_DATABASE_URI: mysql://{{ mysql_user }}:{{ mysql_password }}@{{ mysql_host }}/{{ mysql_database }}
     ports:
-      - 8000:8000
+      - "{{ docker_agama_port }}:8000"
+    restart_policy: always

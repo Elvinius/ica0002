@@ -5,8 +5,7 @@ Documentation=https://github.com/nginxinc/nginx-prometheus-exporter
 [Service]
 Restart=always
 User=prometheus
-#EnvironmentFile=/etc/default/nginx-prometheus-exporter
-ExecStart=/usr/local/bin/nginx-prometheus-exporter $ARGS
+ExecStart=/usr/local/bin/nginx-prometheus-exporter
 #ExecReload=/bin/kill -HUP $MAINPID
 #TimeoutStopSec=20s
 #SendSIGKILL=no

@@ -23,7 +23,8 @@
 - name: MySQL database 
   mysql_db:
     name: "{{ mysql_database }}"
-    login_unix_socket: /var/run/mysqld/mysqld.sock  
+    login_unix_socket: /var/run/mysqld/mysqld.sock 
+  no_log: True 
 
 - name: Create database user with limited privileges
   mysql_user:
@@ -32,3 +33,12 @@
     password: "{{ mysql_password }}"
     priv: '{{ mysql_database }}.*:ALL'
     login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Create MySQL replication user
+  mysql_user:
+    name: "{{ mysql_replication_user }}"
+    password: "{{ mysql_replication_pass }}"
+    priv: "*.*:REPLICATION SLAVE"
+    host: "%"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true

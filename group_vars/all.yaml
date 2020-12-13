@@ -1,4 +1,4 @@
-mysql_host: 192.168.42.151
+mysql_host: 192.168.42.{{ hostvars['elvinius2']['ansible_default_ipv4']['address'].split('.')[3] }}
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -61,17 +61,22 @@ github_token: !vault |
           3131343736356337393961313166316130616432323430363839
 
 local_network: 192.168.42.0/24
+static_route_network: 192.168.100.0/24 
 localhost: 127.0.0.0/8
-vm1_ip: 192.168.42.18
-vm2_ip: 192.168.42.151
-
+localhost_address: 127.0.0.1
+vm1_ip: 192.168.42.{{ hostvars['elvinius1']['ansible_default_ipv4']['address'].split('.')[3] }}
+vm2_ip: 192.168.42.{{ hostvars['elvinius2']['ansible_default_ipv4']['address'].split('.')[3] }}
+vm3_ip: 192.168.42.{{ hostvars['elvinius3']['ansible_default_ipv4']['address'].split('.')[3] }}
+vm1_port_number : 2980
+vm2_port_number : 13480
+vm3_port_number : 17780
 dns_forwarders:
   - 8.8.8.8
   - 1.1.1.1
   - 9.9.9.9
   - 9.9.9.10
 
-backup_ip: 192.168.42.39
+backup_ip: 192.168.42.31
 
 domain: devhunt
 fqdn: devhunt.it
@@ -92,6 +97,14 @@ prometheus_exporters:
 
   bind:
     port: 9119
+  
+haproxy_port: 88
+docker_haproxy_exporter_port: 9101
+keepalived_exporter_port: 9165
+grafana_port: 3000
+docker_grafana_port: 3001
+docker_agama_port: 8000
+statistics_port: 8053
 
 reverse_domain: 
   - 151.42.168.192.in-addr.arpa
@@ -103,9 +116,12 @@ dns_record:
  - name: elvinius1
    type: A
    ipaddress: 192.168.42.{{ hostvars['elvinius1']['ansible_default_ipv4']['address'].split('.')[3] }}
+ - name: elvinius3
+   type: A
+   ipaddress: 192.168.42.{{ hostvars['elvinius3']['ansible_default_ipv4']['address'].split('.')[3] }}
  - name: backup
    type: A
-   ipaddress: 192.168.42.39
+   ipaddress: 192.168.42.31
 
 acl: ica0002acl
 
@@ -134,3 +150,23 @@ dns_cnames:
     real: "{{ groups['haproxy'][1] }}"
   - cname: abc2
     real: elvinius2
+
+prometheus_jobs:
+  - name: prometheus
+    targets: "{{ groups['all'] }}"
+    port: 9090
+  - name: node
+    targets: "{{ groups['all'] }}"
+    port: 9100
+  - name: bind
+    targets:
+      - ns
+    port: 9119
+  - name: mysql
+    targets:
+      - db
+    port: 9104
+  - name: www
+    targets:
+      - www
+    port: 9113

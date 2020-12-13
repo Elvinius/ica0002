@@ -5,19 +5,26 @@
       - prometheus-mysqld-exporter
       - python3-pymysql
 
+- name: Configure MySQL exporter
+  template:
+    src: my.cnf.j2
+    dest: /var/lib/prometheus/.my.cnf 
+    # dest: /home/prometheus/.my.cnf
+    owner: prometheus
+    group: prometheus
+    mode: '0600'
+  notify: Restart MySQL exporter
+
 - name: Create MySQL exporter user
   mysql_user:
     name: "{{ mysql_exporter_user }}"
     password: "{{ mysql_exporter_pass }}"
     priv: "*.*:PROCESS,REPLICATION CLIENT,SELECT"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  # no_log: true
+  no_log: true
 
-- name: Configure MySQL exporter
-  template:
-    src: my.cnf.j2
-    dest: /var/lib/prometheus/.my.cnf
-    owner: prometheus
-    group: prometheus
-    mode: '0400'
-  notify: Restart MySQL exporter
+- name: Enabled
+  service:
+    name: prometheus-mysqld-exporter
+    state: started
+    enabled: yes

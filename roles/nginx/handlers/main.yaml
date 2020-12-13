@@ -1,3 +1,6 @@
+- name: Systemctl daemon-reload
+  shell: "systemctl daemon-reload"
+
 - name: restart nginx
   service:
     name: nginx

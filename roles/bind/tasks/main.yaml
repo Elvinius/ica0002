@@ -46,13 +46,13 @@
 
 - meta: flush_handlers
 
-# - name: Add an abc3 record
-#   nsupdate:
-#     key_algorithm: "hmac-sha256"
-#     key_name: "dns_update"
-#     key_secret: "{{ns_update_secret}}"
-#     server: "{{ hostvars[groups['dns_masters'][0]]['ansible_default_ipv4']['address'] }}"
-#     zone: "{{ fqdn }}"
-#     record: "abc3"
-#     value: "192.168.1.1"
-#   when: inventory_hostname == groups['dns_masters'][0]
+- name: Add an abc3 record
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "dns_update"
+    key_secret: "{{ns_update_secret}}"
+    server: "{{ hostvars[groups['dns_masters'][0]]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ fqdn }}"
+    record: "abc3"
+    value: "192.168.1.1"
+  when: inventory_hostname == groups['dns_masters'][0]
