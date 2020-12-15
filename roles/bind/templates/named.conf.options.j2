@@ -15,7 +15,7 @@ options {
 	    {{ f }};
       {% endfor %}
 	};
-    allow-query { {{ localhost_address }}; {{ local_network }};};
+    allow-query { {{ localhost_address }}; {{ local_network }}; 172.17.0.0/16; };
 	dnssec-validation no;
 	auth-nxdomain no;    # conform to RFC1035
 };

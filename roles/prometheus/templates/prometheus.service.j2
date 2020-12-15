@@ -6,7 +6,7 @@ Documentation=https://prometheus.io/docs/introduction/overview/
 Restart=always
 User=prometheus
 EnvironmentFile=/etc/default/prometheus
-ExecStart=/usr/bin/prometheus $ARGS --web.external-url=http://elvinius2.{{ fqdn }}:{{ vm2_port_number }}/prometheus
+ExecStart=/usr/bin/prometheus $ARGS --web.external-url=http://elvinius3.{{fqdn}}:{{vm3_port_number}}/prometheus
 ExecReload=/bin/kill -HUP $MAINPID
 TimeoutStopSec=20s
 SendSIGKILL=no

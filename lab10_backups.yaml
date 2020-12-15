@@ -1,3 +1,9 @@
+- name: Database server
+  hosts: db_servers
+  roles:
+    - mysql
+  become: yes
+
 - name: Configure backup facilities and upload of backups
   hosts: all
   gather_facts: false

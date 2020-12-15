@@ -4,17 +4,3 @@
     name: 
       - prometheus-node-exporter
       - nginx
-
-# - name: No default nginx
-#   file:
-#     path: /etc/nginx/sites-enabled/default
-#     state: absent
-#   notify:
-#     - Restart nginx
-
-# - name: Nginx config
-#   template:
-#     src: node_exporter
-#     dest: /etc/nginx/sites-enabled/node_exporter
-#   notify:
-#     - Restart nginx

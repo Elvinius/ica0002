@@ -37,7 +37,7 @@ server {
 	}
         {% endif %}
 
-        {% if inventory_hostname in groups['web_servers'] %}
+        {% if inventory_hostname in groups['app_servers'] %}
         #Reverse proxy for Nginx exporter
 
         location /nginx-metrics {

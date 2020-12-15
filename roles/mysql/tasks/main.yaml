@@ -15,8 +15,8 @@
     enabled: yes
 
 - name: copy the mysql config file and restart mysql server
-  copy:
-    src: ../files/override.cnf
+  template:
+    src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
   notify: restart mysql
 

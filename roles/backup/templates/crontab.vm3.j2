@@ -1,7 +1,6 @@
+# According to backup SLA: backups should be done automatically every day at 01:10 (1 AM) with 1 minute step for grafana and prometheus, according to EET (UTC +2) and EEST (UTC +3) time zones
 
-# According to backup SLA: backups should be done automatically every day at 01:10 (1 AM) for grafana, according to EET (UTC +2) and EEST (UTC +3) time zones
-
-10 1 * * * backup mysqldump agama > /home/backup/backup/agama.sql
+10 1 * * * backup rsync -a /var/lib/grafana /home/backup/backup
 
 # Upload all the backups every week at 01:10 (1 AM) on Sundays, according to EET (UTC +2) and EEST (UTC +3) time zones
 
@@ -12,7 +11,4 @@
 10 0 * * 1-6 backup duplicity --no-encryption incremental /home/backup/backup/ rsync://Elvinius@backup.{{ fqdn }}//home/Elvinius/
 
 # Delete old backups at 02:10 on 28th day of every month, according to EET (UTC +2) and EEST (UTC +3) time zones
-
 10 2 28 * * backup duplicity remove-older-than 1M rsync://Elvinius@backup.{{ fqdn }}//home/Elvinius/
-
-# duplicity --no-encryption restore rsync://Elvinius@backup.{{ fqdn }}//home/Elvinius/ /home/backup/restore/

@@ -1,6 +1,6 @@
-elvinius1 ansible_host=193.40.156.86 ansible_port=2922 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-elvinius2 ansible_host=193.40.156.86 ansible_port=13422 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-elvinius3 ansible_host=193.40.156.86 ansible_port=17722 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius1 ansible_host=193.40.156.86 ansible_port=3522 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius2 ansible_host=193.40.156.86 ansible_port=5222 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius3 ansible_host=193.40.156.86 ansible_port=13222 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
 
 [app_servers]
 elvinius1
@@ -8,41 +8,42 @@ elvinius2
 elvinius3
 
 [dns_masters]
-elvinius2
+elvinius3
 
 [dns_slaves]
 elvinius1
-elvinius3
+elvinius2
 
 [dns_servers:children]
 dns_masters
 dns_slaves
 
 [prometheus]
-elvinius2
-elvinius1
 elvinius3
+elvinius1
+elvinius2
 
 [db_servers]
-elvinius1
-elvinius3
+elvinius1 mysql_server_id=80
+elvinius2 mysql_server_id=24
 
 [web_servers]
 elvinius1
-elvinius3
+elvinius2
 
 [node_exporters]
 elvinius1
-elvinius3
+elvinius2
 
 [grafana]
+elvinius3
 elvinius2
 
 [influxdb]
-elvinius2
+elvinius3
 
 [pinger]
-elvinius2
+elvinius3
 
 [docker_servers]
 elvinius1
@@ -52,4 +53,10 @@ elvinius2
 [haproxy]
 elvinius1
 elvinius2
+
+[application_vms]
+elvinius1
+elvinius2
+
+[internal_vm]
 elvinius3

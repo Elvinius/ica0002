@@ -22,58 +22,116 @@
     - bind
   tags: bind
 
+- name: Configure Nginx
+  hosts: all
+  become: yes
+  roles:
+    - nginx
+  tags: nginx
+
 - name: Configure Prometheus
-  hosts: prometheus
+  hosts: all
   become: yes
   roles:
     - prometheus
   tags: prometheus
 
-- name: Nginx proxies
-  hosts: all
-  roles:
-    - nginx
-    - nginx_exporter
-  become: yes
-  tags: nginx
+# - name: Backup
+#   hosts: all
+#   become: yes
+#   gather_facts: no
+#   roles:
+#     - backup
+#   tags: backup
 
-- name: db servers
-  hosts: db_servers
+- name: Internal Machine Play
+  hosts: internal_vm
   become: yes
-  gather_facts: no
+  roles:
+    - users
+    - docker
+    - nginx_exporter
+    - influxdb
+    - backup
+    #- grafana
+    - grafana_docker
+    - node_exporter
+    - rsyslog
+    - pinger
+  tags:
+    - internal
+
+- name: Application Machine Play
+  hosts: application_vms
+  become: yes
   roles:
     - mysql
+    - keepalived
+    - docker
+    - agama_docker
+    - haproxy
+    #- grafana
+    - backup
+    - keepalived
     - mysql_exporter
-  tags: mysql
-
-- name: Monitoring and logging
-  hosts: all
-  become: yes
-  gather_facts: no
-  roles:
-    - node_exporter
+    - nginx_exporter
     - bind_exporter
-
-- name: Install InfluxDB and Telegraf
-  hosts: influxdb
-  gather_facts: false
-  become: yes
-  roles:
-    - influxdb
-
-- name: Configure Rsyslog
-  hosts: prometheus
-  gather_facts: false
-  become: yes
-  roles:
+    - node_exporter
     - rsyslog
+  tags:
+    - application
 
-- name: Transfer and setup pinger script
-  hosts: pinger
-  gather_facts: false
-  become: yes
-  roles:
-    - pinger
+# - name: Nginx
+#   hosts: all
+#   roles: 
+#     - nginx
+#   become: yes
+#   tags: nginx
+
+# - name: Nginx proxies
+#   hosts: all
+#   roles:
+#     - nginx_exporter
+#   become: yes
+#   tags: nginx-exporter
+
+# - name: db servers
+#   hosts: db_servers
+#   become: yes
+#   gather_facts: no
+#   roles:
+#     - mysql
+#     - mysql_exporter
+#   tags: mysql
+
+# - name: Monitoring and logging
+#   hosts: all
+#   become: yes
+#   gather_facts: no
+#   roles:
+#     - node_exporter
+#     - bind_exporter
+
+# - name: Install InfluxDB and Telegraf
+#   hosts: influxdb
+#   gather_facts: false
+#   become: yes
+#   roles:
+#     - influxdb
+
+# - name: Configure Rsyslog
+#   hosts: prometheus
+#   gather_facts: false
+#   become: yes
+#   roles:
+#     - rsyslog
+
+# - name: Transfer and setup pinger script
+#   hosts: pinger
+#   gather_facts: false
+#   become: yes
+#   roles:
+#     - pinger
 
 # - name: Backup
 #   hosts: all
@@ -90,41 +148,41 @@
 #     - grafana
 #   tags: grafana
 
-- name: docker
-  hosts: docker_servers
-  gather_facts: false
-  become: yes
-  roles:
-    - docker
-  tags: docker
+# - name: docker
+#   hosts: docker_servers
+#   gather_facts: false
+#   become: yes
+#   roles:
+#     - docker
+#   tags: docker
 
-- name: Setup Grafana Docker container
-  hosts: grafana
-  gather_facts: no
-  become: yes
-  roles:
-    - grafana_docker
-  tags: grafana_docker
+# - name: Setup Grafana Docker container
+#   hosts: grafana
+#   gather_facts: no
+#   become: yes
+#   roles:
+#     - grafana_docker
+#   tags: grafana_docker
 
-- name: Setup Agama Docker container
-  hosts: app_servers
-  gather_facts: no
-  become: yes
-  roles:
-    - agama_docker
+# - name: Setup Agama Docker container
+#   hosts: app_servers
+#   gather_facts: no
+#   become: yes
+#   roles:
+#     - agama_docker
 
-- name: HAProxy
-  hosts: haproxy
-  gather_facts: true
-  become: yes
-  roles: 
-    - haproxy
-  tags: haproxy
+# - name: HAProxy
+#   hosts: haproxy
+#   gather_facts: true
+#   become: yes
+#   roles: 
+#     - haproxy
+#   tags: haproxy
 
-- name: Keepalived
-  hosts: haproxy
-  gather_facts: true
-  become: yes
-  roles: 
-    - keepalived
-  tags: keepalived
+# - name: Keepalived
+#   hosts: haproxy
+#   gather_facts: true
+#   become: yes
+#   roles: 
+#     - keepalived
+#   tags: keepalived

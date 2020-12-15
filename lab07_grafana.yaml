@@ -34,6 +34,7 @@
   hosts: db_servers
   become: yes
   roles:
+    - mysql
     - mysql_exporter
   tags: mysql
 
