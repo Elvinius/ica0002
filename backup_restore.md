@@ -14,19 +14,6 @@ cd ~
 
 <h2>Application related services</h2>
 
-#### AGAMA -  application
-To restore AGAMA application that uses MySQL database run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
-
-```
-ansible-playbook lab04_web_app.yaml
-```
-
-To restore containerised AGAMA application that uses MySQL database run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
-
-```
-ansible-playbook lab12_docker.yaml
-```
-
 #### MySQL - app database
 To restore MySQL and its configuration run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
 
@@ -53,6 +40,19 @@ To restore uWSGI run the following commands in the Ansible directory containing 
 
 ```
 ansible-playbook lab04_web_app.yaml
+```
+
+#### AGAMA -  application
+To restore AGAMA application that uses MySQL database run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
+
+```
+ansible-playbook lab04_web_app.yaml
+```
+
+To restore containerised AGAMA application that uses MySQL database run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
+
+```
+ansible-playbook lab12_docker.yaml
 ```
 
 #### General services
@@ -176,8 +176,6 @@ To restore the tables in Grafana, please run the following command from machine 
 ```
 duplicity --no-encryption restore rsync://Elvinius@backup.devhunt.it//home/Elvinius/ /home/backup/restore/
 ```
-
-Then as `root` user:
 
 ```
 
