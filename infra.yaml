@@ -29,13 +29,6 @@
     - nginx
   tags: nginx
 
-- name: Configure Prometheus
-  hosts: all
-  become: yes
-  roles:
-    - prometheus
-  tags: prometheus
-
 # - name: Backup
 #   hosts: all
 #   become: yes
@@ -44,19 +37,34 @@
 #     - backup
 #   tags: backup
 
+- name: db servers
+  hosts: db_servers
+  become: yes
+  gather_facts: no
+  roles:
+    - mysql
+    - mysql_exporter
+  tags: mysql
+
+- name: Configure Prometheus
+  hosts: all
+  become: yes
+  roles:
+    - prometheus
+  tags: prometheus
+
 - name: Internal Machine Play
   hosts: internal_vm
   become: yes
   roles:
     - users
+    - grafana
     - docker
     - nginx_exporter
     - influxdb
-    - backup
-    #- grafana
-    - grafana_docker
-    - node_exporter
     - rsyslog
+    - grafana_docker
+    - backup
     - pinger
   tags:
     - internal
@@ -65,15 +73,12 @@
   hosts: application_vms
   become: yes
   roles:
-    - mysql
-    - keepalived
     - docker
     - agama_docker
     - haproxy
-    #- grafana
-    - backup
     - keepalived
-    - mysql_exporter
+    - grafana
+    - backup
     - nginx_exporter
     - bind_exporter
     - node_exporter

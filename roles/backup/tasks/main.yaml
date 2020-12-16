@@ -14,8 +14,8 @@
   mysql_user:
     name: "{{ mysql_backup_user }}"
     password: "{{ mysql_backup_pass }}"
-    priv: "{{ mysql_database }}.*:SELECT,LOCK TABLES"
-    host: "localhost"
+    priv: "{{ mysql_database }}.*:ALL"
+    host: "%"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   no_log: true
   when: inventory_hostname == "elvinius2"

@@ -1,6 +1,6 @@
-elvinius1 ansible_host=193.40.156.86 ansible_port=3522 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-elvinius2 ansible_host=193.40.156.86 ansible_port=5222 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-elvinius3 ansible_host=193.40.156.86 ansible_port=13222 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius1 ansible_host=193.40.156.86 ansible_port=2822 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius2 ansible_host=193.40.156.86 ansible_port=1922 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius3 ansible_host=193.40.156.86 ansible_port=17622 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
 
 [app_servers]
 elvinius1
@@ -37,7 +37,6 @@ elvinius2
 
 [grafana]
 elvinius3
-elvinius2
 
 [influxdb]
 elvinius3

@@ -171,30 +171,29 @@ ansible-playbook lab07_grafana.yaml
 
 To restore containerised Grafana run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
 
+To restore the tables in Grafana, please run the following command from machine `elvinius3` as `backup` user.
+
+```
+duplicity --no-encryption restore rsync://Elvinius@backup.devhunt.it//home/Elvinius/ /home/backup/restore/
+```
+
+Then as `root` user:
+
+```
+
+cp -a /home/backup/restore/grafana/grafana/* /opt/docker/grafana/
+
+cp -a /home/backup/restore/grafana/grafana/* /var/lib/grafana/
+
+chown -R 472:472 /opt/docker/grafana/
+
+docker start grafana
+```
+
+Then from managed host, run the following code.
+
 ```
 ansible-playbook lab12_docker.yaml
-```
-
-To restore Grafana's configuration, do not start with user "backup", start with user "ubuntu" run the following commands on the host with Grafana installed (escalated privileges are required to stop/start Grafana and transfer the files to the final destination with rsync).
-
-```
-duplicity --no-encryption --force restore rsync://<backup_user>@<our_domain>//home/<backup_user> /home/backup/restore/
-sudo systemctl stop grafana-server
-rsync -a --delete /home/backup/backup/grafana.etc/ /etc/grafana/
-rsync -a --delete home/backup/backup/grafana.lib/ /var/lib/grafana/
-sudo systemctl start grafana-server
-```
-
-Run the following commands if the configuration should be restored for the Grafana Docker container, do no start with user "backup", start with user "ubuntu" (escalated privileges are required to change file permissions and transfer the files to the final destination with rsync):
-
-```
-duplicity --no-encryption --force restore rsync://<backup_user>@<our_domain>//home/<backup_user> /home/backup/restore/
-docker stop grafana
-rsync -a --delete /home/backup/backup/grafana.docker.etc/grafana-etc/ /opt/docker/grafana-etc/
-rsync -a --delete home/backup/backup/grafana.docker.lib/grafana/ /opt/docker/grafana/
-chown -R 472:472 /opt/docker/grafana-etc
-chown -R 472:472 /opt/docker/grafana
-docker start grafana
 ```
 
 ##### Pinger - connectivity/latency checker
@@ -263,7 +262,7 @@ To restore HAProxy run the following commands in the Ansible directory containin
 ```
 ansible-playbook lab13_haproxy.yaml
 ```
-##### keepalived - Layer 4 load balancer
+##### Keepalived - Layer 4 load balancer
 To restore keepalived run the following commands in the Ansible directory containing playbooks on the management host/system (or the system where playbooks were restored):
 ```
 ansible-playbook lab13_haproxy.yaml

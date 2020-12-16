@@ -2,7 +2,7 @@ server {
 	listen 80 default_server;
         listen [::]:80 default_server;
 
-        #listen 8080 default_server;
+        listen 8080 default_server;
         #listen [::]:8080 default_server;
 
 	server_name _;
@@ -20,13 +20,13 @@ server {
 	}
         {% endif %}
 
-        #{% if inventory_hostname in groups['app_servers'] %}
+        {% if inventory_hostname in groups['web_servers'] %}
         #Reverse proxy for Nginx statistics
 
-        #location /stub_status {
-         #       stub_status;
-        #}
-        #{% endif %}
+        location /stub_status {
+                stub_status;
+        }
+        {% endif %}
 
 
         {% if inventory_hostname in groups['node_exporters'] %}
@@ -98,14 +98,4 @@ server {
                 #proxy_set_header Host http://{{ ansible_host }}:{{ ansible_port // 100 }}88/grafana/;
 	}
         {% endif %}
-}
-
-server {
-     #Open port 8080 to allow nginx exporters to query the web server
-
-    listen 8080 default_server;
-    listen [::]:8080 default_server;
-    location /stub_status {
-       stub_status;
-   }
 }

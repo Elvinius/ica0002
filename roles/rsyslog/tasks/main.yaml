@@ -10,3 +10,8 @@
     src: 51-telegraf.conf.j2
     dest: /etc/rsyslog.d/51-telegraf.conf
   notify: Restart Rsyslog
+
+- name: start rsyslog
+  service:
+    name: rsyslog
+    state: started

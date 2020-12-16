@@ -18,6 +18,7 @@
   template:
     src: override.cnf.j2
     dest: /etc/mysql/mysql.conf.d/override.cnf
+    mode: 0644
   notify: restart mysql
 
 - name: MySQL database 
@@ -33,6 +34,7 @@
     password: "{{ mysql_password }}"
     priv: '{{ mysql_database }}.*:ALL'
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
 
 - name: Create MySQL replication user
   mysql_user:
