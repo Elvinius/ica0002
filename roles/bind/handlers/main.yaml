@@ -2,6 +2,7 @@
   service:
     name: bind9
     state: restarted
+    enabled: yes
   become: yes
 
 - name: Reload rndc

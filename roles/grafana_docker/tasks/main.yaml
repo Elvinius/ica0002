@@ -21,5 +21,6 @@
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
     volumes:
       - /opt/docker/grafana:/var/lib/grafana
-    published_ports:
+    ports:
       - "{{ docker_grafana_port }}:{{ grafana_port }}"
+    restart_policy: always

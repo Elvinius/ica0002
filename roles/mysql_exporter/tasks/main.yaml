@@ -28,3 +28,4 @@
     name: prometheus-mysqld-exporter
     state: started
     enabled: yes
+  become: yes

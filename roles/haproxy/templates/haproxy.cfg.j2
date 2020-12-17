@@ -38,6 +38,6 @@ listen my_agama
 {% for vm in groups['web_servers'] %}
 {% for i in range(nginx_container_per_vm) %}
   #server {{ vm }}_{{ i }} {{ vm }}.{{fqdn}}:1008{{ i }} check
-  server {{ vm }}_{{ i }} {{ vm }}.{{fqdn}}:{{ docker_agama_port }} 
+  server {{ vm }}_{{ i }} {{ vm }}.{{fqdn}}:{{ docker_agama_port }} check
 {% endfor %}
 {% endfor %}

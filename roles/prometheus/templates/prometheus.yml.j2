@@ -3,16 +3,6 @@ global:
   evaluation_interval: 15s # By default, scrape targets every 15 seconds.
 
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: 'prometheus'
-
-    # Override the global default and scrape targets from this job every 5 seconds.
-    scrape_interval: 5s
-    scrape_timeout: 5s
-
-    static_configs:
-      - targets: ['localhost:9090']
-
   - job_name: linux
     static_configs:
       - targets: 
@@ -50,12 +40,12 @@ scrape_configs:
     static_configs:
       - targets:
           {% for vm in groups['haproxy'] %}
-            - {{ hostvars[vm]['inventory_hostname'] }}:{{ docker_haproxy_exporter_port }}
+            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ docker_haproxy_exporter_port }}
           {% endfor %}
 
   - job_name: keepalived_exporter
     static_configs:
       - targets:
           {% for vm in groups['haproxy'] %}
-            - {{ hostvars[vm]['inventory_hostname'] }}:{{ keepalived_exporter_port }}
+            - {{ hostvars[vm]['inventory_hostname'] }}.{{ fqdn }}:{{ keepalived_exporter_port }}
           {% endfor %}

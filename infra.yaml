@@ -37,21 +37,20 @@
 #     - backup
 #   tags: backup
 
-- name: db servers
-  hosts: db_servers
-  become: yes
-  gather_facts: no
-  roles:
-    - mysql
-    - mysql_exporter
-  tags: mysql
-
 - name: Configure Prometheus
   hosts: all
   become: yes
   roles:
     - prometheus
   tags: prometheus
+
+- name: db servers
+  hosts: db_servers
+  become: yes
+  gather_facts: no
+  roles:
+    - mysql
+  tags: mysql
 
 - name: Internal Machine Play
   hosts: internal_vm
@@ -79,6 +78,7 @@
     - keepalived
     - grafana
     - backup
+    - mysql_exporter
     - nginx_exporter
     - bind_exporter
     - node_exporter

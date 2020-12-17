@@ -37,4 +37,5 @@
   service:
     name: keepalived-exporter
     state: started
+    enabled: yes
   become: yes

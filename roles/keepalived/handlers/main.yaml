@@ -3,6 +3,7 @@
   service:
     name: keepalived
     state: restarted
+    enabled: yes
 
 - name: Systemctl daemon-reload
   shell: "systemctl daemon-reload"
@@ -11,3 +12,4 @@
   service:
     name: keepalived-exporter
     state: restarted
+    enabled: yes

@@ -10,6 +10,7 @@
   service:
     name: bind9
     state: started
+    enabled: yes
 
 - name: copy the options config file
   template:

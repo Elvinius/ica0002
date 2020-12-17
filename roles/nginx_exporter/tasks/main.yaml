@@ -18,3 +18,4 @@
     name: nginx-prometheus-exporter
     state: started
     enabled: yes
+  become: yes

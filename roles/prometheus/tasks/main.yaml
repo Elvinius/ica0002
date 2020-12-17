@@ -11,6 +11,7 @@
   notify: 
     - Restart Prometheus
     - restart Nginx
+  become: yes
 
 # - name: Make prometheus available
 #   template:
@@ -32,4 +33,6 @@
 - name: start prometheus
   service:
     name: prometheus
-    state: started 
+    state: started
+    enabled: yes
+  become: yes 
