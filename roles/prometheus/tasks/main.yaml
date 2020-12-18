@@ -10,7 +10,7 @@
     dest: /etc/prometheus/prometheus.yml
   notify: 
     - Restart Prometheus
-    - restart Nginx
+    #- restart Nginx
   become: yes
 
 # - name: Make prometheus available
@@ -28,8 +28,11 @@
   notify: 
     - Systemctl daemon-reload
     - Restart Prometheus 
-    - restart Nginx
+    #- restart Nginx
 
+- name: Execute handlers preemptively
+  meta: flush_handlers
+  
 - name: start prometheus
   service:
     name: prometheus

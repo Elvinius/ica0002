@@ -86,7 +86,7 @@ server {
                 #Reverse proxy for HAProxy
 
                 location /haproxy {
-                        proxy_pass http://{{localhost_address}}:{{ docker_haproxy_exporter_port }}/haproxy?stats;
+                        proxy_pass http://{{localhost_address}}:{{ haproxy_port }}/haproxy?stats;
                 }
         {% endif %}
 

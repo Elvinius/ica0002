@@ -40,6 +40,8 @@
     login_unix_socket: /var/run/mysqld/mysqld.sock
   no_log: true
 
+- name: Execute handlers preemptively
+  meta: flush_handlers
 
 - name: start mysql server
   service:
