@@ -29,8 +29,7 @@
     image: quay.io/prometheus/haproxy-exporter:v0.9.0
     published_ports:
       - "{{ docker_haproxy_exporter_port }}:{{ docker_haproxy_exporter_port }}" 
-    command: --haproxy.scrape-uri="http:/elvinius1.{{ fqdn }}:{haproxy_port}/haproxy?stats;csv"
-    # command: --haproxy.scrape-uri="http://172.17.0.1:88/haproxy?stats;csv"
+    command: --haproxy.scrape-uri="http://elvinius1.{{ fqdn }}:{{haproxy_port}}/haproxy?stats;csv"
     restart_policy: always
   when: inventory_hostname == "elvinius1"
 
@@ -40,18 +39,9 @@
     image: quay.io/prometheus/haproxy-exporter:v0.9.0
     published_ports:
       - "{{ docker_haproxy_exporter_port }}:{{ docker_haproxy_exporter_port }}" 
-    command: --haproxy.scrape-uri="http:/elvinius2.{{ fqdn }}:{haproxy_port}/haproxy?stats;csv"
+    command: --haproxy.scrape-uri="http://elvinius2.{{ fqdn }}:{{haproxy_port}}/haproxy?stats;csv"
     restart_policy: always
   when: inventory_hostname == "elvinius2"
-
-# - name: HAProxy exporter container
-#   docker_container:
-#     name: haproxy_exporter
-#     image: quay.io/prometheus/haproxy-exporter:v0.9.0
-#     published_ports:
-#       - "{{ docker_haproxy_exporter_port }}:{{ docker_haproxy_exporter_port }}" 
-#     command: --haproxy.scrape-uri="http:/{{ localhost_address }}:{haproxy_port}/haproxy?stats;csv"
-#     restart_policy: always
 
 - name: Start service HAProxy, if not started
   service:

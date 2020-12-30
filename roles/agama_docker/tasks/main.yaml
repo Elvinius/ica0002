@@ -15,21 +15,12 @@
     group: root
     mode: '777'
 
-# - name: Transfer Agama Docker file
-#   template:
-#    src: Dockerfile.j2
-#    dest: /opt/agama/Dockerfile
-#    owner: root
-#    group: root
-#    mode: '777'
-
-
 - name: Build agama image
   docker_image:
     name: agama
     build:
       path: /opt/agama
-      # network: host
+      network: host
     source: build
     
 

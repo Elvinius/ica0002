@@ -14,7 +14,6 @@
     dest: /etc/mysql/mysql.conf.d/override.cnf
     mode: 0644
   notify: restart mysql
-  become: yes
 
 - name: MySQL database 
   mysql_db:

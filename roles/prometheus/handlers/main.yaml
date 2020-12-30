@@ -1,4 +1,7 @@
 ---
+- name: Systemctl daemon-reload
+  shell: "systemctl daemon-reload"
+
 - name: Restart Prometheus
   service:
     name: prometheus
@@ -10,6 +13,3 @@
     name: nginx
     state: restarted
     enabled: yes
-    
-- name: Systemctl daemon-reload
-  shell: "systemctl daemon-reload"

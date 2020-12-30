@@ -5,14 +5,18 @@
       - prometheus-mysqld-exporter
       - python3-pymysql
 
+- name: Create directory
+  file:
+    path: /var/lib/prometheus
+    state: directory
+
 - name: Configure MySQL exporter
   template:
     src: my.cnf.j2
-    dest: /var/lib/prometheus/.my.cnf 
-    # dest: /home/prometheus/.my.cnf
+    dest: /var/lib/prometheus/.my.cnf
     owner: prometheus
     group: prometheus
-    mode: '0600'
+    mode: 0644
   notify: Restart MySQL exporter
 
 - name: Create MySQL exporter user
@@ -23,9 +27,11 @@
     login_unix_socket: /var/run/mysqld/mysqld.sock
   no_log: true
 
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
+  
 - name: Enabled
   service:
     name: prometheus-mysqld-exporter
     state: started
     enabled: yes
-  become: yes

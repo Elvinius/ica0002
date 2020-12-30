@@ -38,7 +38,7 @@
 #   tags: backup
 
 - name: Configure Prometheus
-  hosts: all
+  hosts: prometheus
   become: yes
   roles:
     - prometheus

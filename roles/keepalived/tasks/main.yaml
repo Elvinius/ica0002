@@ -10,6 +10,7 @@
     dest: /etc/keepalived/keepalived.conf
   notify:
     - restart keepalived
+    - restart haproxy
 
 - name: Download and unarchive keepalived exporter
   unarchive:
@@ -24,6 +25,7 @@
   notify: 
     - Systemctl daemon-reload
     - restart keepalived-exporter
+    - restart haproxy
 
 - name: Start service keepalived, if not started
   service:

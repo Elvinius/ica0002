@@ -10,16 +10,8 @@
     dest: /etc/prometheus/prometheus.yml
   notify: 
     - Restart Prometheus
-    #- restart Nginx
+    - restart Nginx
   become: yes
-
-# - name: Make prometheus available
-#   template:
-#     src: prometheus.j2
-#     dest: /etc/default/prometheus
-#   notify: 
-#     - Systemctl daemon-reload
-#     - Restart Prometheus
 
 - name: Configure Prometheus' web path
   template:
@@ -28,11 +20,11 @@
   notify: 
     - Systemctl daemon-reload
     - Restart Prometheus 
-    #- restart Nginx
+    - restart Nginx
 
 - name: Execute handlers preemptively
   meta: flush_handlers
-  
+
 - name: start prometheus
   service:
     name: prometheus

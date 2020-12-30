@@ -67,9 +67,9 @@ localhost_address: 127.0.0.1
 vm1_ip: 192.168.42.{{ hostvars['elvinius1']['ansible_default_ipv4']['address'].split('.')[3] }}
 vm2_ip: 192.168.42.{{ hostvars['elvinius2']['ansible_default_ipv4']['address'].split('.')[3] }}
 vm3_ip: 192.168.42.{{ hostvars['elvinius3']['ansible_default_ipv4']['address'].split('.')[3] }}
-vm1_port_number : 14980
-vm2_port_number : 5380
-vm3_port_number : 16480
+vm1_port_number : 3280
+vm2_port_number : 13280
+vm3_port_number : 11380
 dns_forwarders:
   - 8.8.8.8
   - 1.1.1.1
