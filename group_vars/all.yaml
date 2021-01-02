@@ -61,15 +61,16 @@ github_token: !vault |
           3131343736356337393961313166316130616432323430363839
 
 local_network: 192.168.42.0/24
+docker_network: 172.17.0.0/16
 static_route_network: 192.168.100.0/24 
 localhost: 127.0.0.0/8
 localhost_address: 127.0.0.1
 vm1_ip: 192.168.42.{{ hostvars['elvinius1']['ansible_default_ipv4']['address'].split('.')[3] }}
 vm2_ip: 192.168.42.{{ hostvars['elvinius2']['ansible_default_ipv4']['address'].split('.')[3] }}
 vm3_ip: 192.168.42.{{ hostvars['elvinius3']['ansible_default_ipv4']['address'].split('.')[3] }}
-vm1_port_number : 3280
-vm2_port_number : 13280
-vm3_port_number : 11380
+vm1_port_number : "{{ hostvars['elvinius1']['ansible_default_ipv4']['address'].split('.')[3] }}80"
+vm2_port_number : "{{ hostvars['elvinius2']['ansible_default_ipv4']['address'].split('.')[3] }}80"
+vm3_port_number : "{{ hostvars['elvinius3']['ansible_default_ipv4']['address'].split('.')[3] }}80"
 dns_forwarders:
   - 8.8.8.8
   - 1.1.1.1
@@ -151,23 +152,3 @@ dns_cnames:
     real: "{{ groups['haproxy'][1] }}"
   - cname: abc2
     real: elvinius2
-
-# prometheus_jobs:
-#   - name: prometheus
-#     targets: "{{ groups['all'] }}"
-#     port: 9090
-#   - name: node
-#     targets: "{{ groups['all'] }}"
-#     port: 9100
-#   - name: bind
-#     targets:
-#       - ns
-#     port: 9119
-#   - name: mysql
-#     targets:
-#       - db
-#     port: 9104
-#   - name: www
-#     targets:
-#       - www
-#     port: 9113

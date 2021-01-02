@@ -1,12 +1,6 @@
 - name: Ensure nginx is installed and in working state
   apt: 
     name: nginx  
-# - name: copy the nginx config file and restart nginx
-#   copy:
-#     src: ../files/uwsgi_app.cfg
-#     dest: /etc/nginx/sites-enabled/default
-#   become: yes
-#   notify: restart nginx
 
 - name: Copy Nginx default config to sites-enabled
   template:

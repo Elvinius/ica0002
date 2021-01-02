@@ -1,10 +1,4 @@
 ---
-# - name: Deps
-#   apt:
-#     name: 
-#       - adduser
-#       - libfontconfig1
-
 - name: Install required tools for Grafana installation
   apt:
     name: apt-transport-https

@@ -21,8 +21,7 @@
     build:
       path: /opt/agama
       network: host
-    source: build
-    
+    source: build   
 
 - name: agama container
   docker_container:
