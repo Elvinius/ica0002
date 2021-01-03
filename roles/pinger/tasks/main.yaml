@@ -5,7 +5,6 @@
     state: latest
 
 #Check if curl is installed
-
 - name: Install curl
   apt:
     name: curl

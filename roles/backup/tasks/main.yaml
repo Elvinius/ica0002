@@ -7,9 +7,7 @@
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
-
 # Add MySQL backup user and MySQL cnf file
-
 - name: Create MySQL backup user
   mysql_user:
     name: "{{ mysql_backup_user }}"

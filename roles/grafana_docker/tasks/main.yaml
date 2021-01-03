@@ -4,6 +4,11 @@
     name: grafana/grafana
     source: pull
 
+- name: Import grafana
+  group:
+    name: grafana
+    gid: 472
+
 - name: Grafana directory
   file:
     name: /opt/docker/grafana

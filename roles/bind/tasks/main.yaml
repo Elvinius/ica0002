@@ -6,11 +6,11 @@
       - python3-dnspython 
     update_cache: no
 
-- name: Start service bind9, if not started
-  service:
-    name: bind9
-    state: started
-    enabled: yes
+# - name: Start service bind9, if not started
+#   service:
+#     name: bind9
+#     state: started
+#     enabled: yes
 
 - name: copy the options config file
   template:
@@ -34,7 +34,7 @@
 
 - name: DNS Zone
   template:
-    src: ../templates/db.example.j2
+    src: ../templates/db.devhunt.j2
     dest: /var/lib/bind/db.devhunt.it
   notify: Reload rndc
   when: inventory_hostname in groups['dns_masters']
@@ -45,7 +45,9 @@
     dest: /etc/resolv.conf
   notify: restart bind9
 
-- meta: flush_handlers
+# Before modification run handlers
+- name: Execute handlers preemptively
+  meta: flush_handlers
 
 # - name: Add an abc3 record
 #   nsupdate:
@@ -57,3 +59,38 @@
 #     record: "abc3"
 #     value: "192.168.1.1"
 #   when: inventory_hostname == groups['dns_masters'][0]
+
+- name: Add an A record
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "dns_update"
+    key_secret: "{{ns_update_secret}}"
+    server: "{{ hostvars[groups['dns_masters'][0]]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ fqdn }}"
+    record: "{{ item['subdomain'] }}.{{ fqdn }}."
+    value: "{{ item['ip'] }}"
+    type: "A"
+  loop: "{{ a_records }}"
+  when: inventory_hostname == groups['dns_masters'][0]
+
+- name: Add CNAME record
+  nsupdate:
+    key_algorithm: "hmac-sha256"
+    key_name: "dns_update"
+    key_secret: "{{ ns_update_secret }}"
+    server: "{{ hostvars[groups['dns_masters'][0]]['ansible_default_ipv4']['address'] }}"
+    zone: "{{ fqdn }}"
+    record: "{{ item['cname'] }}.{{ fqdn }}."
+    value: "{{ item['real'] }}.{{ fqdn }}."
+    type: "CNAME"
+  loop: "{{ dns_cnames }}"
+  when: inventory_hostname == groups['dns_masters'][0]
+
+- name: Execute handlers before adding records
+  meta: flush_handlers
+
+- name: Start service bind9, if not started
+  service:
+    name: bind9
+    state: started
+    enabled: yes

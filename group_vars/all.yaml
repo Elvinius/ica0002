@@ -125,6 +125,10 @@ dns_record:
    type: A
    ipaddress: 192.168.42.156
 
+a_records:
+  - subdomain: backup
+    ip: 192.168.42.156
+
 acl: ica0002acl
 
 ica0002acl:
@@ -150,5 +154,5 @@ dns_cnames:
     real: "{{ groups['haproxy'][0] }}"
   - cname: haproxy2
     real: "{{ groups['haproxy'][1] }}"
-  - cname: abc2
-    real: elvinius2
+  # - cname: abc2
+  #   real: elvinius2

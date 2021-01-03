@@ -94,7 +94,7 @@ server {
         #Reverse proxy for Grafana
 
         location /grafana {
-     	        proxy_pass http://{{localhost_address}}:{{ grafana_port }}; 
+     	        proxy_pass http://{{localhost_address}}:{{ docker_grafana_port }}; 
                 #proxy_set_header Host http://{{ ansible_host }}:{{ ansible_port // 100 }}88/grafana/;
 	}
         {% endif %}

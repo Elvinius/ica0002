@@ -54,7 +54,7 @@
     - nginx_exporter
     - influxdb
     - rsyslog
-    #- grafana_docker
+    - grafana_docker
     - backup
     - pinger
   tags:
