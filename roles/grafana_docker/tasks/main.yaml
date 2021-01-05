@@ -16,6 +16,7 @@
     owner: "472"
     group: "472"
     recurse: true
+  changed_when: False
 
 - name: Grafana container
   docker_container:
