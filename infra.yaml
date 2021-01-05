@@ -22,6 +22,13 @@
     - bind
   tags: bind
 
+- name: DNS Resolved
+  hosts: all
+  become: yes
+  roles:
+    - dns_resolve
+  tags: dns_resolve
+
 - name: Configure Nginx
   hosts: all
   become: yes
@@ -49,14 +56,14 @@
   become: yes
   roles:
     - users
-    - grafana
+    #- grafana
     - docker
+    - grafana_docker
     - nginx_exporter
     - influxdb
     - rsyslog
-    - grafana_docker
-    - backup
     - pinger
+    - backup
   tags:
     - internal
 
@@ -68,7 +75,6 @@
     - agama_docker
     - haproxy
     - keepalived
-    - grafana
     - backup
     - mysql_exporter
     - nginx_exporter

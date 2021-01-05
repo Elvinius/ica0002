@@ -27,6 +27,14 @@
     mode: '0400'
   when: inventory_hostname == "elvinius2"
 
+#- name: Grafana directory
+#  file:
+#    name: /opt/docker/grafana
+#    state: directory
+#    owner: "472"
+#    group: "472"
+#    recurse: true
+
 - name: Add the user to the Grafana group on the elvinius3
   user:
     name: backup
@@ -54,13 +62,13 @@
   apt:
     name: duplicity
 
-- name: Copy crontab to VM2
+- name: Copy crontab to elvinius2
   template:
     src: crontab.vm2.j2
     dest: /etc/cron.d/backup
   when: inventory_hostname == "elvinius2"
 
-- name: Copy crontab to VM3
+- name: Copy crontab to elvinius3
   template:
     src: crontab.vm3.j2
     dest: /etc/cron.d/backup

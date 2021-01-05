@@ -1,4 +1,4 @@
-# According to backup SLA: backups should be done automatically every day at 01:10 (1 AM) for grafana and prometheus, according to EET (UTC +2) and EEST (UTC +3) time zones
+# According to backup SLA: backups should be done automatically every day at 01:10 (1 AM) for grafana, according to EET (UTC +2) and EEST (UTC +3) time zones
 
 10 1 * * * backup rsync -a /var/lib/grafana /home/backup/backup
 

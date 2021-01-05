@@ -1,7 +1,7 @@
 ---
-- name: Exporter user
-  user:
-    name: prometheus
+#- name: Exporter user
+#  user:
+#    name: prometheus
 
 - name: Install Bind9 exporter
   apt:

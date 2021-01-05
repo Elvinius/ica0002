@@ -1,6 +1,6 @@
-elvinius1 ansible_host=193.40.156.86 ansible_port=6222 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-elvinius2 ansible_host=193.40.156.86 ansible_port=11422 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
-elvinius3 ansible_host=193.40.156.86 ansible_port=9822 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius1 ansible_host=193.40.156.86 ansible_port=6722 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius2 ansible_host=193.40.156.86 ansible_port=3622 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
+elvinius3 ansible_host=193.40.156.86 ansible_port=9622 ansible_ssh_user=ubuntu ansible_python_interpreter=python3
 
 [app_servers]
 elvinius1
@@ -13,6 +13,7 @@ elvinius3
 [dns_slaves]
 elvinius1
 elvinius2
+
 
 [dns_servers:children]
 dns_masters

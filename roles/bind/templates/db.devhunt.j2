@@ -6,9 +6,11 @@ $TTL	604800
 			2419200		; Expire
 			 604800 )	; Negative Cache TTL
 ;
+
 {% for vm in groups['dns_servers'] %}
-{{ fqdn }}.  IN NS {{ vm }}.{{fqdn}}.
+{{ fqdn }}.	IN	NS	{{ vm }}.{{fqdn}}.
 {% endfor %}
+
 {% for vm in hostvars %}
-{{ hostvars[vm]['inventory_hostname'] }}.{{fqdn}}. IN A {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
+{{ hostvars[vm]['inventory_hostname'] }}	IN	A	{{ hostvars[vm]['ansible_default_ipv4']['address'] }}
 {% endfor %}

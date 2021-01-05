@@ -1,8 +1,8 @@
 ---
-- name: Pull default Docker image
-  docker_image:
-    name: grafana/grafana
-    source: pull
+#- name: Pull default Docker image
+#  docker_image:
+#    name: grafana/grafana
+#    source: pull
 
 - name: Import grafana
   group:
@@ -29,3 +29,4 @@
     ports:
       - "{{ docker_grafana_port }}:{{ grafana_port }}"
     restart_policy: always
+

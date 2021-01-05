@@ -154,5 +154,3 @@ dns_cnames:
     real: "{{ groups['haproxy'][0] }}"
   - cname: haproxy2
     real: "{{ groups['haproxy'][1] }}"
-  # - cname: abc2
-  #   real: elvinius2

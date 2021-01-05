@@ -26,3 +26,9 @@
     name: influxdb
     state: started
     enabled: yes
+
+- name: Start service telegraf, if not started
+  service:
+    name: telegraf
+    state: started
+    enabled: yes

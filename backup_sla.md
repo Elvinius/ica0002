@@ -79,7 +79,7 @@ Incremental backups are not produced, main services are backed up rarely and acc
 
 MySQL and Grafana backups are retained for 4 weeks/28 days, only 2 versions can be stored at the same time.
 
-Time: the oldest/3rd backup should be deleted at at 02:10 (around 2 AM) on 28th day of every month, according to EET (UTC +2) and EEST (UTC +3) time zones. The date has been chosen considering the leap year as we want the deletion happening each month at least.
+Time: the oldest/3rd backup should be deleted at 02:10 (around 2 AM) on 28th day of every month, according to EET (UTC +2) and EEST (UTC +3) time zones. The date has been chosen considering the short month (February) as we want the deletion happening each month at least.
 
 Explanation:
 Retention period should be longer than the period between creation of backups to not create a window of time, when there is none. To minimize storage used and still provide reliable backup service, 4 weeks was chosen as a backup retention period for MySQL, and Grafana to retain only 2 backup versions. If the last backup is not compatible with the newer version of the used software, then there is a higher chance that the older backup will cover this issue.
