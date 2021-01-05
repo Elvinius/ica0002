@@ -4,11 +4,6 @@
 #    name: grafana/grafana
 #    source: pull
 
-- name: Import grafana
-  group:
-    name: grafana
-    gid: 472
-
 - name: Grafana directory
   file:
     name: /opt/docker/grafana
@@ -16,8 +11,7 @@
     owner: "472"
     group: "472"
     recurse: true
-  changed_when: False
-
+  
 - name: Grafana container
   docker_container:
     name: grafana
@@ -30,4 +24,3 @@
     ports:
       - "{{ docker_grafana_port }}:{{ grafana_port }}"
     restart_policy: always
-
