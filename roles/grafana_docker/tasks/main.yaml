@@ -1,15 +1,10 @@
 ---
-#- name: Pull default Docker image
-#  docker_image:
-#    name: grafana/grafana
-#    source: pull
-
 - name: Grafana directory
   file:
     name: /opt/docker/grafana
     state: directory
-    owner: "472"
-    group: "472"
+    owner: grafana # change it to "472" if not working and/or run grafana additionally
+    group: grafana
     recurse: true
   
 - name: Grafana container
