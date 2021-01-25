@@ -1,5 +1,0 @@
----
-  - name: Ansible connection test
-    hosts: Elvinius-1
-    roles:
-      - test_connection
